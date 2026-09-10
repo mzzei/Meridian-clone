@@ -123,10 +123,10 @@ padrão sem lançar, e onde vive a versão do motor.
 
 ### O exemplo agora salva a resposta em disco
 
-`motor/exemplo-integracao.mjs` continua imprimindo o resumo, mas passa a gravar tambem
+`motor/exemplo-integracao.mjs` continua imprimindo o resumo, mas passa a gravar também
 `motor-amostra/analysis.json`, `rawFacts.json` e `usage.json` — exatamente o que
-`analyzeMatch` devolve. E o caminho mais rapido para conhecer o contrato de saida: em vez
-de ler a descricao dos campos, voce roda uma partida real com a sua chave e modela em cima
+`analyzeMatch` devolve. É o caminho mais rápido para conhecer o contrato de saída: em vez
+de ler a descrição dos campos, você roda uma partida real com a sua chave e modela em cima
 do JSON que de fato chega.
 
 ### Empacotamento

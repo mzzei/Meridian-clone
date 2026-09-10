@@ -39,9 +39,9 @@ console.log('tickets:', (a.sugestoes_ticket || []).map((t) => `${t.descricao} ($
 console.log('LACUNAS declaradas:', (a.lacunas || []).length);
 (a.lacunas || []).forEach((l) => console.log('  ·', String(l).slice(0, 140)));
 console.log(`\ntokens: F1 ${usage.p1In}+${usage.p1Out} · F2 ${usage.p2In}+${usage.p2Out} · ${secs}s`);
-// Salva a resposta crua em disco. E a forma mais rapida de conhecer o contrato de saida:
-// em vez de ler a descricao dos campos, voce abre o JSON de uma partida real e modela em
-// cima do que realmente chega. Os tres arquivos sao exatamente o que analyzeMatch devolve.
+// Salva a resposta crua em disco. É a forma mais rápida de conhecer o contrato de saída:
+// em vez de ler a descrição dos campos, você abre o JSON de uma partida real e modela em
+// cima do que realmente chega. Os três arquivos são exatamente o que analyzeMatch devolve.
 const saida = path.resolve('motor-amostra');
 fs.mkdirSync(saida, { recursive: true });
 fs.writeFileSync(path.join(saida, 'analysis.json'), JSON.stringify(analysis, null, 2));

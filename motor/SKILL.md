@@ -177,7 +177,7 @@ const engine = await createEngine({
   onProgress: (u) => {},     // {status, phase: 1|2, inTokens, outTokens} — streaming de progresso
   log: (msg) => {},          // avisos não-fatais
 });
-// engine.version → versão do motor (ver motor/CHANGELOG.md)
+// engine.version → versão do motor; também exportada como MOTOR_VERSION (ver motor/CHANGELOG.md)
 ```
 
 **ID DE COMPETIÇÃO É EXATO — id desconhecido vira Brasileirão, sem erro.** `getComp()`
@@ -195,7 +195,6 @@ motor. Em servidor, guarde a instância em módulo/singleton; para paralelismo r
 use processos separados.
 
 ```js
-
 const { analysis, rawFacts, usage } =
   await engine.analyzeMatch('PARTIDA: Flamengo x Palmeiras', { signal });
 
@@ -244,7 +243,8 @@ Os modelos fixos estão hardcoded no pacote (`js/analysis/pipeline-facts.js`,
 exigir outros, é ali que se troca — e o `tests/motor.mjs` deve continuar passando.
 
 Outros fatores: `searches` (1–3) multiplica as buscas da Fase 1, que é a etapa com
-mais chamadas; o `web_search` da Anthropic é cobrado por busca, à parte dos tokens.
+mais chamadas — é um teto, não uma cota: o motor busca só os tópicos ainda descobertos,
+e sobe de 1 para 2 quando a cobertura pré-busca está baixa; o `web_search` da Anthropic é cobrado por busca, à parte dos tokens.
 Use o `usage` devolvido por `analyzeMatch`/`chat` para medir de verdade em vez de
 estimar.
 
@@ -286,17 +286,20 @@ trate esse caso separadamente do erro real.
 ## Arquivos do pacote
 
 - `motor/engine.mjs` — composição headless (este contrato)
-- `js/analysis/` — prompts, pipeline F1/F2, normalização, escalação (menos `render.js`)
+- `js/analysis/` — prompts, pipeline F1/F2, normalização, escalação
 - `js/data/` — fontes, cascata, memória de fatos, cobertura, telemetria
 - `js/lib/intent.js`, `js/comp/competitions.js`, `js/state.js`, `js/expose.js`, `js/runtime.js`
+- `motor/exemplo-integracao.mjs` — roda uma análise real e grava a resposta em disco
 - `tests/motor.mjs` — prova de integração headless (`node tests/motor.mjs`)
 - `motor/HANDOFF-ENGENHARIA.md` — arquitetura e regras de funcionamento
+- `motor/CHANGELOG.md` — o que mudou entre versões, e o que altera números exibidos
+- `motor/MANIFEST.txt` — lista exata dos arquivos do pacote
 
 ## Checklist de integração (self-service)
 
 O pacote é entregue como arquivos e o caminho abaixo é autossuficiente — dá para integrar sem nenhum contato adicional:
 
 1. `node tests/motor.mjs` → deve terminar em `MOTOR ALL PASSED` (sem chave nenhuma; tudo roda com stubs).
-2. Rode `node motor/exemplo-integracao.mjs "PARTIDA: Time A x Time B"` com a sua chave via variável de ambiente `ANTHROPIC_KEY`, num jogo real da rodada → inspecione `analysis.lacunas` e `analysis._lineupsFonte` juntos (os dois dizem a verdade sobre a qualidade daquela análise).
+2. Rode `node motor/exemplo-integracao.mjs "PARTIDA: Time A x Time B"` com a sua chave via variável de ambiente `ANTHROPIC_KEY`, num jogo real da rodada → inspecione `analysis.lacunas` e `analysis._lineupsFonte` juntos (os dois dizem a verdade sobre a qualidade daquela análise). O exemplo grava `motor-amostra/analysis.json`, `rawFacts.json` e `usage.json` — modelar em cima do JSON real costuma ser mais rápido do que ler a descrição dos campos. Rode duas vezes, numa prévia e num jogo já encerrado: `contexto_analise` muda a semântica de várias seções.
 3. Leia este SKILL.md por inteiro — é o contrato de uso (INPUT/OUTPUT/garantias).
 4. Leia o `HANDOFF-ENGENHARIA.md` — em especial a seção 3 (regras de funcionamento que não devem ser violadas na manutenção).
