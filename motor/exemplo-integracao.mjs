@@ -2,6 +2,8 @@
  * Exemplo de integração — node motor/exemplo-integracao.mjs "PARTIDA: Time A x Time B"
  * A chave vem da variável de ambiente ANTHROPIC_KEY (nunca de arquivo/chat).
  */
+import fs from 'node:fs';
+import path from 'node:path';
 import { createEngine } from './engine.mjs';
 
 const apiKey = process.env.ANTHROPIC_KEY;
@@ -37,5 +39,15 @@ console.log('tickets:', (a.sugestoes_ticket || []).map((t) => `${t.descricao} ($
 console.log('LACUNAS declaradas:', (a.lacunas || []).length);
 (a.lacunas || []).forEach((l) => console.log('  ·', String(l).slice(0, 140)));
 console.log(`\ntokens: F1 ${usage.p1In}+${usage.p1Out} · F2 ${usage.p2In}+${usage.p2Out} · ${secs}s`);
+// Salva a resposta crua em disco. E a forma mais rapida de conhecer o contrato de saida:
+// em vez de ler a descricao dos campos, voce abre o JSON de uma partida real e modela em
+// cima do que realmente chega. Os tres arquivos sao exatamente o que analyzeMatch devolve.
+const saida = path.resolve('motor-amostra');
+fs.mkdirSync(saida, { recursive: true });
+fs.writeFileSync(path.join(saida, 'analysis.json'), JSON.stringify(analysis, null, 2));
+fs.writeFileSync(path.join(saida, 'rawFacts.json'), JSON.stringify(rawFacts, null, 2));
+fs.writeFileSync(path.join(saida, 'usage.json'), JSON.stringify(usage, null, 2));
+console.log(String.fromCharCode(10) + 'amostra salva em', saida, '(analysis.json, rawFacts.json, usage.json)');
+
 console.log(analysis.partida ? '\nANÁLISE REAL OK' : '\nFALHOU');
 process.exit(0);

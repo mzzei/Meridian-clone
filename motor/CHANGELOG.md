@@ -121,6 +121,14 @@ recálculo por Poisson (dirigido pelo descritor de mercado; mercado por time usa
 mercado de período fica com o modelo), o aviso de que um id de liga desconhecido cai no
 padrão sem lançar, e onde vive a versão do motor.
 
+### O exemplo agora salva a resposta em disco
+
+`motor/exemplo-integracao.mjs` continua imprimindo o resumo, mas passa a gravar tambem
+`motor-amostra/analysis.json`, `rawFacts.json` e `usage.json` — exatamente o que
+`analyzeMatch` devolve. E o caminho mais rapido para conhecer o contrato de saida: em vez
+de ler a descricao dos campos, voce roda uma partida real com a sua chave e modela em cima
+do JSON que de fato chega.
+
 ### Empacotamento
 
 O empacotador passa a auditar os documentos com uma régua mais dura que a do código e
