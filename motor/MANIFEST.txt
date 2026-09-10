@@ -1,0 +1,30 @@
+# Motor Meridian 1.0.2 — conteúdo do pacote (lista exata de arquivos).
+# Mudanças desta versão: motor/CHANGELOG.md
+# tests/motor.mjs valida que todos existem: node tests/motor.mjs
+motor/engine.mjs
+motor/SKILL.md
+motor/CHANGELOG.md
+motor/HANDOFF-ENGENHARIA.md
+motor/MANIFEST.txt
+motor/exemplo-integracao.mjs
+tests/motor.mjs
+js/analysis/prompts.js
+js/analysis/pipeline-facts.js
+js/analysis/pipeline-run.js
+js/analysis/normalize.js
+js/analysis/lineup.js
+js/analysis/tab-helpers.js
+js/data/cached-fetch.js
+js/data/source-telemetry.js
+js/data/espn.js
+js/data/football-apis.js
+js/data/free-sources.js
+js/data/facts-memory.js
+js/data/phase1-context.js
+js/data/source-health.js
+js/data/schedule.js
+js/lib/intent.js
+js/comp/competitions.js
+js/state.js
+js/expose.js
+js/runtime.js
