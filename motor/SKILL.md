@@ -128,10 +128,6 @@ o modelo responde e antes de a análise ser entregue, sempre na mesma ordem:
    vendê-lo como o achado da análise;
 6. em prévia, nenhum texto pode afirmar que a partida analisada já aconteceu.
 
-Há ainda faixas de plausibilidade travadas na verificação final: xG entre 0 e 4, rating
-entre 4 e 10, probabilidade entre 1% e 95%, e no máximo cerca de 45 jogos de liga por
-jogador na temporada.
-
 O princípio que amarra tudo: **o modelo estima parâmetros; o código calcula
 probabilidade.** Quando os dois discordam sobre aritmética, o código vence.
 
@@ -145,12 +141,10 @@ probabilidade.** Quando os dois discordam sobre aritmética, o código vence.
    análise inteira: lambdas com racional declarado, mercados, leitura tática, tendências,
    incertezas e lacunas.
 4. **Normalização** — as verificações determinísticas acima, na ordem descrita.
-5. **Auditoria** — um verificador independente relê a análise pronta procurando
-   incoerência objetiva; o que sobrevive entra como incerteza declarada no resultado.
 
 A ponderação do jogo acontece na etapa 3, de uma vez. O que é encadeado e verificável
-são as **garantias** em volta dela: cobertura declarada na 1, lacuna dirigida na 2,
-aritmética e plausibilidade travadas na 4, revisão adversarial na 5.
+são as **garantias** em volta dela: cobertura declarada na 1, lacuna dirigida e nomes
+verificados na 2, aritmética e coerência travadas na 4.
 
 **Como a Fase 2 é chamada, e por quê:** o relatório é pedido por prompt-contrato e
 lido com `parseAnalysisJson`, **sem extended thinking** — raciocínio estendido junto
@@ -234,7 +228,7 @@ por conta própria, e todos entram na sua fatura:
 
 | Etapa | Modelo | Configurável? |
 |---|---|---|
-| Fase 1 (coleta), `fillDataGaps`, `verifyLineupNames`, verificação da análise, resolução de agenda/placar | **Haiku 4.5** | não |
+| Fase 1 (coleta), `fillDataGaps`, `verifyLineupNames`, resolução de agenda/placar | **Haiku 4.5** | não |
 | Fase 2 (o relatório) e `chat()` | o `model` que você passar | sim |
 | Resgate — só quando a Fase 2 insiste em responder em prosa; caminho raro | **Opus 4.8** | não |
 
